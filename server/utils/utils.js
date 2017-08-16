@@ -3,19 +3,21 @@ const uuidv1 = require('uuid/v1');
 const Utils = {
 
   createUserWithLogin: (login) => {
+    const number = Utils.getRandomInt(0, 100);
     return {
       id: uuidv1(),
       email: login,
-      firstName: 'John',
-      lastName: 'Shown',
+      firstName: `John ${number}`,
+      lastName: `Smith ${number}`,
     };
   },
   createUser: () => {
+    const number = Utils.getRandomInt(0, 100);
     return {
       id: uuidv1(),
-      email: `email${Utils.getRandomInt(0, 100)}@example.com`,
-      firstName: 'John',
-      lastName: 'Shown',
+      email: `email${number}@example.com`,
+      firstName: `John ${number}`,
+      lastName: `Smith ${number}`,
     };
   },
 
@@ -28,8 +30,8 @@ const Utils = {
   },
 
   /**
-   * @param [number] min
-   * @param [number] max
+   * @param {number} min
+   * @param {number} max
    * @return {*}
    */
   getRandomInt: (min, max) => {

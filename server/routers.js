@@ -10,6 +10,7 @@ const serveStatic = require('serve-static');
 
 const AuthRouter = require('./modules/auth/router');
 const AuthService = require('./modules/auth/service');
+const FriendsRouter = require('./modules/friends/router');
 
 /**
  * Middleware
@@ -37,11 +38,13 @@ app.use((req, res, next) => {
  * Routes
  */
 app.use('/api', AuthRouter);
+app.use('/api', FriendsRouter);
 app.use(serveStatic(path.join(__dirname, './../dist')));
 
 app.use(function(err, req, res, next) {
+  const isBoom = err.isBoom;
   console.error(err);
-  res.status(err.isBoom ? err.output.statusCode : 500).json(err.isBoom ? err.output : Boom.wrap(err));
+  res.status(isBoom ? err.output.statusCode : 500).json(isBoom ? err.output : Boom.wrap(err));
 });
 
 module.exports = app;
