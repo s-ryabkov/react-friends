@@ -5,6 +5,13 @@ const FriendsRouter = express.Router();
 const FriendsService = require('./service');
 
 FriendsRouter
+  .use((req, res, next) => {
+    const {isAuthenticated} = req;
+    if (!isAuthenticated) {
+      throw Boom.unauthorized();
+    }
+    next();
+  })
   .get('/friends/:id', (req, res, next) => {
     const {id} = req.params;
     FriendsService.getOne(id)
