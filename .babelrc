@@ -1,0 +1,35 @@
+{
+  "presets": [
+    "react",
+    [
+      "env",
+      {
+        "targets": {
+          "browsers": [
+            "last 2 versions",
+            ">5%"
+          ]
+        },
+        "modules": false
+      }
+    ]
+  ],
+  "plugins": [
+    "transform-class-properties",
+    "transform-object-rest-spread"
+  ],
+  "env": {
+    "test": {
+      "plugins": [
+        "transform-es2015-modules-commonjs",
+        "transform-object-rest-spread"
+      ]
+    },
+    "server": {
+      "plugins": [
+        "transform-es2015-modules-commonjs",
+        "transform-object-rest-spread"
+      ]
+    }
+  }
+}

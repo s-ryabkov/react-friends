@@ -1,0 +1,33 @@
+Create a WEB app
+1. Login
+a) As a first time user I want to see login screen, enter mail & password. Press login. Then see Friends page.
+b) When Reopen the page, and logged in previously
+Then see Friends page.
+
+2. Friends page
+a) When logged and on "Friends"  page I should see table with 5 columns:Name, Last Name, age, gender, birth date.
+b) I should have simple table paging implemented for table to load additional 5 friends.
+c) I should have simple table filters to show friends with age and gender for existing data on a client.
+d) add Filter to search all friends by name from backend
+
+Display with basic Bootstrap style, no customisation needed.Use React components, Redux for state handlingCreate node App
+
+Node app should have express.js or similar to consume Rest API calls.
+1) provide a back point for login.
+Don't setup any Database, create stub data - return random user id, token etc.
+Any credential data should work fine - simple REST, don't provide JWT checks.
+2) Provide a back point which will accept "friends" to load for authenticated user - just provide random user data (token), nothing complicated
+3) Create a method to create friend data (about 50 fake friends  in JSON or via function ) - no actual names needed. Names like "Friend 1" are fine.
+
+NOTES
+Create GitHub public repository for this task.
+Commit and push changes frequently for us to observe work.
+
+ADDITIONAL NOTES
+Please don't use extensive starter projects, use simple React starter.
+Provide minimal code. If you DO use huge starter projects at this point, provide file names that you created in Readme.md, it will help (speed up) code review.
+Also provide initial build steps for project, e.g:
+ 1)yarn install
+ 2)yarn run start
+Make sure that project starts with fresh 'npm install' and major functionality can be tested.
+Leave notes if something wasn't completed or doesn't work properly.
