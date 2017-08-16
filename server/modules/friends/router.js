@@ -3,15 +3,10 @@ const _ = require('lodash');
 const Boom = require('boom');
 const FriendsRouter = express.Router();
 const FriendsService = require('./service');
+const isAuthenticated = require('./../../middleware/isAuthenticated');
 
 FriendsRouter
-  .use((req, res, next) => {
-    const {isAuthenticated} = req;
-    if (!isAuthenticated) {
-      throw Boom.unauthorized();
-    }
-    next();
-  })
+  .use(isAuthenticated)
   .get('/friends/:id', (req, res, next) => {
     const {id} = req.params;
     FriendsService.getOne(id)

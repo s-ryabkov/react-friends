@@ -1,6 +1,7 @@
 const express = require('express');
 const AuthRouter = express.Router();
 const AuthService = require('./service');
+const isAuthenticated = require('./../../middleware/isAuthenticated');
 
 AuthRouter
   .post('/login', (req, res, next) => {
@@ -11,7 +12,10 @@ AuthRouter
         res.json(data);
       })
       .catch(next);
-  })
+  });
+
+AuthRouter
+  .use(isAuthenticated)
   .get('/session', (req, res, next) => {
     const {token} = req.cookies;
     AuthService.getMe(token)
