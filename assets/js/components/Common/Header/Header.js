@@ -28,9 +28,7 @@ class Header extends Component {
             <LinkContainer to='/'>
               <NavItem eventKey={2}>{user.email}</NavItem>
             </LinkContainer>
-            <LinkContainer to='/api/logout'>
-              <NavItem eventKey={2}>Logout</NavItem>
-            </LinkContainer>
+            <NavItem eventKey={3} href='/api/logout'>Logout</NavItem>
           </Nav>
         }
       </Navbar>
