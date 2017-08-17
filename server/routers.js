@@ -25,13 +25,13 @@ app.use((req, res, next) => {
     return next();
   }
 
-  AuthService.getMe(token)
+  return AuthService.getMe(token)
     .then((user) => {
       req.isAuthenticated = true;
       req.principal = user;
       next();
     })
-    .catch((err) => next());
+    .catch(() => next());
 });
 
 /**
@@ -41,7 +41,7 @@ app.use('/api', AuthRouter);
 app.use('/api', FriendsRouter);
 app.use(serveStatic(path.join(__dirname, './../dist')));
 
-app.use(function(err, req, res, next) {
+app.use((err, req, res, next) => {
   const isBoom = err.isBoom;
   console.error(err);
   res.status(isBoom ? err.output.statusCode : 500).json(isBoom ? err.output : Boom.wrap(err));
