@@ -11,6 +11,12 @@ class LoginPage extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  componentDidMount() {
+    if (this.props.isAuth) {
+      return this.props.history.push('/friends');
+    }
+  }
+
   onSubmit(params) {
     return this.props.login(params, () => this.props.history.push('/friends'));
   }
@@ -31,6 +37,8 @@ class LoginPage extends React.Component {
 
 LoginPage.propTypes = {
   login: PropTypes.func.isRequired,
+  isAuth: PropTypes.bool.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
 export default withRouter(LoginPage);

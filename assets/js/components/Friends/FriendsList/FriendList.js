@@ -4,23 +4,49 @@ import Friend from './../Friend/Friend';
 
 export default class FriendsList extends Component {
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      searchQuery: {
+        from: 0,
+        number: 10,
+        name: '',
+      },
+    };
+  }
+
+  componentDidMount() {
+    if (!this.props.isAuth) {
+      return this.props.history.push('/login');
+    }
+    this.props.getFriends(this.state.searchQuery);
+  }
+
   render() {
-    const { friends } = this.props;
+    const { rows, total } = this.props;
     return <div>
       <div>
-        FriendsList component {friends.length}
+        Total: {total}
       </div>
-      {
-        friends.map((friend) => <Friend friend={friend} />)
-      }
+      <table>
+        {
+          rows.map((friend) => <Friend friend={friend} />)
+        }
+      </table>
     </div>;
   }
 }
 
 FriendsList.propTypes = {
-  friends: PropTypes.array.isRequired,
+  rows: PropTypes.array.isRequired,
+  total: PropTypes.number.isRequired,
+  getFriends: PropTypes.func.isRequired,
+  isAuth: PropTypes.bool.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
 FriendsList.defaultProps = {
-  friends: [],
+  rows: [],
+  total: 0,
 };

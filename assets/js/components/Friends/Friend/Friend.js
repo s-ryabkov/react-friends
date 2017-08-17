@@ -5,11 +5,11 @@ export default class Friend extends Component {
 
   render() {
     const { friend } = this.props;
-    return <div>
-      <div>
-        Friend component {friend}
-      </div>
-    </div>;
+    return <tr>
+        <td>{friend.firstName}</td>
+        <td>{friend.lastName}</td>
+        <td>{friend.email}</td>
+    </tr>;
   }
 }
 

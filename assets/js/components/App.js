@@ -4,7 +4,7 @@ import { Alert } from 'react-bootstrap';
 import _ from 'lodash';
 import Header from './Common/Header/Header';
 import LoginPageContainer from './../containers/LoginPageContainer';
-import FriendsList from './Friends/FriendsList/FriendList';
+import FriendListContainer from './../containers/FriendListContainer';
 
 export default class App extends Component {
 
@@ -24,8 +24,10 @@ export default class App extends Component {
       }
       <Switch>
         <Route path='/login' component={LoginPageContainer} />
-        <Route path='/friends' component={FriendsList} />
+        <Route path='/friends' component={FriendListContainer} />
       </Switch>
     </div>;
   }
 }
+
+App.propTypes = {};

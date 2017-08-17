@@ -5,6 +5,9 @@ const friends = (state = {}, action) => {
     case ActionTypes.SET_FRIENDS_LIST:
       return {
         ...state,
+        rows: action.rows,
+        number: action.number,
+        total: action.total,
       };
 
     default:
