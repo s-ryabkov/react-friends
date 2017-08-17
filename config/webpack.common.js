@@ -1,26 +1,26 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const webpack = require("webpack");
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
   entry: {
     bundle: [
-      "babel-polyfill",
-      "./assets/js/index.js"
+      'babel-polyfill',
+      './assets/js/index.js',
     ],
     vendor: [
-      "react",
-      "react-dom",
-      "react-router",
-      "react-bootstrap",
-      "redux",
-      "react-redux",
-      "redux-thunk"
-    ]
+      'react',
+      'react-dom',
+      'react-router',
+      'react-bootstrap',
+      'redux',
+      'react-redux',
+      'redux-thunk',
+    ],
   },
 
   resolve: {
-    extensions: [".js", ".jsx"]
+    extensions: ['.js', '.jsx'],
   },
 
   module: {
@@ -28,40 +28,55 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loaders: ["babel-loader"]
+        loaders: ['babel-loader'],
       },
       {
         test: /\.html$/,
-        loader: "html-loader"
+        loader: 'html-loader',
       },
       {
         test: /\.(svg|png|jpe?g|gif|ico)$/,
-        loader: "file-loader?name=assets/images/[name].[hash].[ext]"
+        loader: 'file-loader?name=assets/images/[name].[hash].[ext]',
       },
       {
         test: /\.?scss$/,
         loader: ExtractTextPlugin.extract({
-          fallback: "style-loader",
-          use: "css-loader!autoprefixer-loader?browsers=last 2 version!resolve-url-loader!sass-loader?sourceMap"
-        })
+          fallback: 'style-loader',
+          use: 'css-loader!autoprefixer-loader?browsers=last 2 version!resolve-url-loader!sass-loader?sourceMap',
+        }),
       },
-    ]
+      {
+        test: /\.?css$/,
+        loader: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: 'css-loader!autoprefixer-loader?browsers=last 2 version!resolve-url-loader!sass-loader?sourceMap',
+        }),
+      },
+      {
+        test: /\.woff(2)?((\?v=[0-9]\.[0-9]\.[0-9])|(\?ver=[0-9]\.[0-9]))?$/,
+        loader: 'url-loader?limit=10000&mimetype=application/font-woff',
+      },
+      {
+        test: /\.(otf|ttf|eot|svg)((\?v=[0-9]\.[0-9]\.[0-9])|(\?ver=[0-9]\.[0-9]))?$/,
+        loader: 'file-loader?name=fonts/[name].[hash].[ext]',
+      },
+    ],
   },
 
   plugins: [
     new webpack.NoEmitOnErrorsPlugin(),
     new ExtractTextPlugin({
-      filename: "style.[hash].css",
-      allChunks: true
+      filename: 'style.[hash].css',
+      allChunks: true,
     }),
     new webpack.optimize.CommonsChunkPlugin({
-      name: "vendor",
+      name: 'vendor',
       minChunks: Infinity,
     }),
     new HtmlWebpackPlugin({
-      filename: "index.html",
-      template: "./assets/views/index.html"
+      filename: 'index.html',
+      template: './assets/views/index.html',
     }),
-    new webpack.ProgressPlugin()
-  ]
+    new webpack.ProgressPlugin(),
+  ],
 };

@@ -3,13 +3,14 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Nav, Navbar, NavItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import { connect } from 'react-redux';
 
-export default class Header extends Component {
+class Header extends Component {
 
   render() {
     const { user } = this.props;
 
-    return <header className='header'>
+    return <header className='friends-header'>
       <Navbar>
         <Navbar.Header>
           <Navbar.Brand>
@@ -25,7 +26,10 @@ export default class Header extends Component {
           !!user &&
           <Nav pullRight>
             <LinkContainer to='/'>
-              <NavItem eventKey={2} >{user.email}</NavItem>
+              <NavItem eventKey={2}>{user.email}</NavItem>
+            </LinkContainer>
+            <LinkContainer to='/api/logout'>
+              <NavItem eventKey={2}>Logout</NavItem>
             </LinkContainer>
           </Nav>
         }
@@ -37,3 +41,14 @@ export default class Header extends Component {
 Header.propTypes = {
   user: PropTypes.object,
 };
+
+function mapStateToProps(state) {
+  return {
+    user: state.authentication.user,
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  {},
+)(Header);

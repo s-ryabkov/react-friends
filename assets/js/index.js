@@ -10,6 +10,7 @@ import { applyMiddleware, createStore } from 'redux';
 import App from './components/App';
 
 import '../styles/common.scss';
+import Bootstrap from 'bootstrap/dist/css/bootstrap.css';
 
 const initialState = window.__INITIAL_STATE__;
 

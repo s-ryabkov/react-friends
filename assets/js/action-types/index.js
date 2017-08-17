@@ -1,0 +1,4 @@
+export const SET_AUTH_TOKEN = 'SET_AUTH_TOKEN';
+export const UNSET_AUTH_TOKEN = 'UNSET_AUTH_TOKEN';
+
+export const SET_FRIENDS_LIST = 'SET_FRIENDS_LIST';
