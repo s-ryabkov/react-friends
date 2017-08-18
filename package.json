@@ -9,6 +9,10 @@
     "type": "git",
     "url": "https://github.com/s-ryabkov/react-friends"
   },
+  "engines": {
+    "node": ">=8",
+    "npm": ">=5"
+  },
   "scripts": {
     "start:dev": "NODE_ENV=development rimraf ./dist && node index.js",
     "start:prod": "NODE_ENV=production node index.js",

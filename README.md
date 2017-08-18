@@ -24,10 +24,12 @@ Run following command in order to install all the needed dependencies:
 
 ##### DEV ENV
 Start the server that is using HMR as middleware:
-`npm run start:dev`  
+`npm run start:dev`
+Open 'http://localhost:3000'  
 
 ##### PROD ENV
 Build the bundle with webpack:
 `npm run build:prod`
 Start the server:
 `npm run start:prod`
+Open 'http://localhost:3000'
