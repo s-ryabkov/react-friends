@@ -22,7 +22,7 @@ class LoginPage extends React.Component {
   }
 
   render() {
-    return <div className='login'>
+    return <div className='friends-login'>
       <div className='container'>
         <Row>
           <Col md={4} mdOffset={4}>

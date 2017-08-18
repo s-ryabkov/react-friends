@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Pager, Row, Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import Friend from './../Friend/Friend';
 
 export default class FriendsList extends Component {
@@ -13,10 +14,16 @@ export default class FriendsList extends Component {
         from: 0,
         number: 5,
       },
+      filters: {
+        ageFrom: null,
+        ageTo: null,
+        gender: null,
+      },
     };
 
     this.prevPage = this.prevPage.bind(this);
     this.nextPage = this.nextPage.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
 
   componentDidMount() {
@@ -45,38 +52,74 @@ export default class FriendsList extends Component {
     });
   }
 
+  onChange(ev) {
+    const type = ev.target.type;
+    const isNumber = type === 'number';
+    const newState = _.set(
+      this.state,
+      ev.target.name,
+      isNumber ? Number.parseInt(ev.target.value, 10) : ev.target.value
+    );
+    this.setState(newState);
+  }
+
   render() {
     const { rows, total } = this.props;
     const { from, number } = this.state.searchQuery;
+    const { filters } = this.state;
 
-    return <div className='container'>
-      <Row>
-        <div>Total: {total} ({from}-{from + number})</div>
-      </Row>
-      <Row>
-        <Table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Last name</th>
-              <th>Age</th>
-              <th>Gender</th>
-              <th>Birth date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              rows.map((friend) => <Friend friend={friend} key={friend.id} />)
-            }
-          </tbody>
-        </Table>
-      </Row>
-      <Row>
-        <Pager>
-          <Pager.Item href='#' onClick={this.prevPage}>Previous</Pager.Item>
-          <Pager.Item href='#' onClick={this.nextPage}>Next</Pager.Item>
-        </Pager>
-      </Row>
+    const filteredRows = rows.filter((friend) => {
+      const hasFilters = (filters.ageFrom && filters.ageTo) || filters.gender;
+      if (!hasFilters) {
+        return true;
+      }
+      const isFiltered = [];
+      if (filters.ageFrom && filters.ageTo) {
+        isFiltered.push(friend.age >= filters.ageFrom && friend.age <= filters.ageTo);
+      }
+      if (filters.gender) {
+        isFiltered.push(filters.gender === friend.gender);
+      }
+      return !_.some(isFiltered, (match) => !match);
+    });
+
+    return <div className='friends-list'>
+      <div className='container'>
+        <Row>
+          <div>Total: {total} ({from + 1}-{from + number})</div>
+        </Row>
+        <Row>
+          <Table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Last name</th>
+                <th>
+                  <span>Age</span>
+                  <input type='number' name='filters.ageFrom' placeholder='From' onChange={this.onChange} />
+                  <input type='number' name='filters.ageTo' placeholder='To' onChange={this.onChange} />
+                </th>
+                <th>
+                  <span>Gender</span>
+                  <input type='text' name='filters.gender' placeholder='M or F' onChange={this.onChange} />
+                </th>
+                <th>Birth date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                filteredRows.map((friend) => <Friend friend={friend} key={friend.id} />)
+              }
+            </tbody>
+          </Table>
+        </Row>
+        <Row>
+          <Pager>
+            <Pager.Item href='#' onClick={this.prevPage}>Previous</Pager.Item>
+            <Pager.Item href='#' onClick={this.nextPage}>Next</Pager.Item>
+          </Pager>
+        </Row>
+      </div>
     </div>;
   }
 }
@@ -85,8 +128,6 @@ FriendsList.propTypes = {
   rows: PropTypes.array.isRequired,
   total: PropTypes.number.isRequired,
   getFriends: PropTypes.func.isRequired,
-  isAuth: PropTypes.bool.isRequired,
-  history: PropTypes.object.isRequired,
 };
 
 FriendsList.defaultProps = {
