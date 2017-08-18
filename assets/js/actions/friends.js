@@ -15,7 +15,7 @@ export const getFriends = (searchQuery, callback) => {
     return axios({
         url: '/api/friends',
         method: 'GET',
-        data: searchQuery,
+        params: searchQuery,
       },
     )
       .then((response) => {

@@ -1,7 +1,7 @@
 const Utils = require('./../../utils/utils');
 const Promise = require('bluebird');
 //TODO: use separate file as a stub-storage?
-const FRIENDS = Utils.createRandomFriends(100);
+const FRIENDS = Utils.createRandomFriends(31);
 
 const FriendsService = {
 
