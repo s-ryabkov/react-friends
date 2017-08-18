@@ -17,7 +17,15 @@ const FriendsService = {
    */
   search: (options) => {
     const foundFriends = FRIENDS
-      .sort()
+      .sort((f1, f2) => {
+        if (f1.firstName > f2.firstName) {
+          return 1;
+        }
+        if (f1.firstName < f2.firstName) {
+          return -1;
+        }
+        return 0;
+      })
       .filter((friend) => {
         return !options.query ||
           _.includes(friend.firstName, options.query) ||
