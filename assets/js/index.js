@@ -19,7 +19,7 @@ const initialState = window.__INITIAL_STATE__;
 const store = applyMiddleware(thunk)(createStore)(reducers, initialState);
 const authToken = cookie.load('token');
 if (authToken) {
-  store.dispatch(setAuth(authToken, {}));
+  store.dispatch(setAuth(authToken, { email: cookie.load('email') }));
 }
 
 render(

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import cookie from 'react-cookies';
 import { SubmissionError } from 'redux-form';
 import * as ActionTypes from './../action-types/index';
 
@@ -20,6 +21,8 @@ export const login = (values, callback) => {
     )
       .then((response) => {
         const { token, user } = response.data;
+        // TODO: we would need to re-fetch it with GET /api/session rather than use cookie
+        cookie.save('email', user.email);
         dispatch(setAuth(token, user));
         dispatch(callback);
       })
