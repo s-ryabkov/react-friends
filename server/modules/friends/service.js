@@ -1,5 +1,6 @@
 const Utils = require('./../../utils/utils');
 const Promise = require('bluebird');
+const _ = require('lodash');
 //TODO: use separate file as a stub-storage?
 const FRIENDS = Utils.createRandomFriends(31);
 
@@ -16,13 +17,18 @@ const FriendsService = {
    */
   search: (options) => {
     const foundFriends = FRIENDS
-      .filter((friend) => !options.query || (friend.firstName === options.query || friend.lastName === options.query))
-      .slice(options.from, options.from + options.number);
+      .sort()
+      .filter((friend) => {
+        return !options.query ||
+          _.includes(friend.firstName, options.query) ||
+          _.includes(friend.lastName, options.query);
+      });
+    const pageOfFriends = foundFriends.slice(options.from, options.from + options.number);
     const searchResult = {
-      rows: foundFriends,
-      number: foundFriends.length,
+      rows: pageOfFriends,
+      number: options.number,
       from: options.from,
-      total: FRIENDS.length,
+      total: foundFriends.length,
       query: options.query,
     };
     return Promise.resolve(searchResult);

@@ -13,6 +13,7 @@ export default class FriendsList extends Component {
       searchQuery: {
         from: 0,
         number: 5,
+        query: '',
       },
       filters: {
         ageFrom: null,
@@ -24,10 +25,11 @@ export default class FriendsList extends Component {
     this.prevPage = this.prevPage.bind(this);
     this.nextPage = this.nextPage.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.searchFriends = this.searchFriends.bind(this);
   }
 
   componentDidMount() {
-    this.props.getFriends(this.state.searchQuery);
+    this.searchFriends();
   }
 
   prevPage() {
@@ -35,6 +37,7 @@ export default class FriendsList extends Component {
     const newSearchQuery = {
       from,
       number: this.state.searchQuery.number,
+      query: this.state.searchQuery.query,
     };
     this.setState({ searchQuery: newSearchQuery }, () => {
       this.props.getFriends(this.state.searchQuery);
@@ -42,10 +45,11 @@ export default class FriendsList extends Component {
   }
 
   nextPage() {
-    const from = Math.min(this.state.searchQuery.from + this.state.searchQuery.number, this.props.total - 1);
+    const from = Math.min(this.state.searchQuery.from + this.state.searchQuery.number, this.props.total);
     const newSearchQuery = {
       from,
       number: this.state.searchQuery.number,
+      query: this.state.searchQuery.query,
     };
     this.setState({ searchQuery: newSearchQuery }, () => {
       this.props.getFriends(this.state.searchQuery);
@@ -61,6 +65,10 @@ export default class FriendsList extends Component {
       isNumber ? Number.parseInt(ev.target.value, 10) : ev.target.value
     );
     this.setState(newState);
+  }
+
+  searchFriends() {
+    this.props.getFriends(this.state.searchQuery);
   }
 
   render() {
@@ -89,6 +97,10 @@ export default class FriendsList extends Component {
           <div>Total: {total} ({from + 1}-{from + number})</div>
         </Row>
         <Row>
+          <input type='text' name='searchQuery.query' placeholder='Name' onChange={this.onChange} />
+          <button onClick={this.searchFriends}>Search</button>
+        </Row>
+        <Row>
           <Table>
             <thead>
               <tr>
@@ -115,8 +127,18 @@ export default class FriendsList extends Component {
         </Row>
         <Row>
           <Pager>
-            <Pager.Item href='#' onClick={this.prevPage}>Previous</Pager.Item>
-            <Pager.Item href='#' onClick={this.nextPage}>Next</Pager.Item>
+            <Pager.Item
+              href='#'
+              disabled={this.state.searchQuery.from - this.state.searchQuery.number < 0}
+              onClick={this.prevPage}>
+              Previous
+            </Pager.Item>
+            <Pager.Item
+              href='#'
+              disabled={this.state.searchQuery.from + this.state.searchQuery.number > this.props.total}
+              onClick={this.nextPage}>
+              Next
+            </Pager.Item>
           </Pager>
         </Row>
       </div>
