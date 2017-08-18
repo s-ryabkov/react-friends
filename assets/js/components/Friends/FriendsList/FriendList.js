@@ -17,9 +17,6 @@ export default class FriendsList extends Component {
   }
 
   componentDidMount() {
-    if (!this.props.isAuth) {
-      return this.props.history.push('/login');
-    }
     this.props.getFriends(this.state.searchQuery);
   }
 

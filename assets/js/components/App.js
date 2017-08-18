@@ -5,6 +5,7 @@ import _ from 'lodash';
 import Header from './Common/Header/Header';
 import LoginPageContainer from './../containers/LoginPageContainer';
 import FriendListContainer from './../containers/FriendListContainer';
+import AuthRequired from './../components/Auth/AuthRequired/AuthRequired';
 
 export default class App extends Component {
 
@@ -24,7 +25,7 @@ export default class App extends Component {
       }
       <Switch>
         <Route path='/login' component={LoginPageContainer} />
-        <Route path='/friends' component={FriendListContainer} />
+        <Route path='/friends' component={AuthRequired(FriendListContainer)} />
       </Switch>
     </div>;
   }
