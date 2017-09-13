@@ -43,8 +43,23 @@ app.use(serveStatic(path.join(__dirname, './../dist')));
 
 app.use((err, req, res, next) => {
   const isBoom = err.isBoom;
-  console.error(err);
+  if (err.message !== 'Unauthorized') {
+    console.error(err);
+  }
   res.status(isBoom ? err.output.statusCode : 500).json(isBoom ? err.output : Boom.wrap(err));
 });
+
+// App configuration
+const AppConfig = require('../config/appConfig');
+
+if (AppConfig.ENV === 'production' || AppConfig.ENV === 'test') {
+  // add middleware for serving index.html page - in order to support client side routing
+  app.use((req, res) => {
+    return res.sendFile(path.resolve(process.cwd(), 'dist', 'index.html'));
+  });
+} else {
+  require('babel-register')({ ignore: /node_modules/ });
+  require('../config/webpack.dev')(app);
+}
 
 module.exports = app;

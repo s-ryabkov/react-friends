@@ -33,6 +33,7 @@ class LoginForm extends Component {
         <label>Email</label>
         <div>
           <input
+            ref='login'
             name='login'
             type='text'
             placeholder='Email'
@@ -44,6 +45,7 @@ class LoginForm extends Component {
         <label>Password</label>
         <div>
           <input
+            ref='password'
             name='password'
             type='text'
             placeholder='Password'
@@ -52,7 +54,7 @@ class LoginForm extends Component {
         </div>
       </div>
       <div>
-        <button type='submit'>
+        <button ref='submit' type='submit'>
           Submit
         </button>
       </div>

@@ -12,7 +12,7 @@ export default function(ComposedComponent) {
       }
     }
 
-    componentwillUpdate(nextProps) {
+    componentWillUpdate(nextProps) {
       if (!nextProps.authenticated) {
         this.props.history.push('/login');
       }

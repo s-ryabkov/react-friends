@@ -1,5 +1,5 @@
-const express = require('express');
-const AuthRouter = express.Router();
+const { Router } = require('express');
+const AuthRouter = new Router();
 const AuthService = require('./service');
 const isAuthenticated = require('./../../middleware/isAuthenticated');
 
