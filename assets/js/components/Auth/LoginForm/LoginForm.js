@@ -28,7 +28,9 @@ class LoginForm extends Component {
   }
 
   render() {
-    return <form onSubmit={this.handleSubmit}>
+    return <div className='friends-login'>
+      <div className='container'>
+    <form onSubmit={this.handleSubmit}>
       <div>
         <label>Email</label>
         <div>
@@ -58,7 +60,7 @@ class LoginForm extends Component {
           Submit
         </button>
       </div>
-    </form>;
+    </form></div></div>;
   }
 
 }

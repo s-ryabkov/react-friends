@@ -12,7 +12,7 @@ import App from './components/App';
 import { setAuth } from './actions/authentication';
 
 import '../styles/common.scss';
-import Bootstrap from 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/css/bootstrap.css';
 
 const initialState = window.__INITIAL_STATE__;
 

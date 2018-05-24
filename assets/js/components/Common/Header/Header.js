@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Nav, Navbar, NavItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import { connect } from 'react-redux';
 
 class Header extends Component {
 
@@ -40,13 +39,4 @@ Header.propTypes = {
   user: PropTypes.object,
 };
 
-function mapStateToProps(state) {
-  return {
-    user: state.authentication.user,
-  };
-}
-
-export default connect(
-  mapStateToProps,
-  {},
-)(Header);
+export default Header;

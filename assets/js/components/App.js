@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { Alert } from 'react-bootstrap';
 import _ from 'lodash';
-import Header from './Common/Header/Header';
+import HeaderContainer from './../containers/HeaderContainer';
 import LoginPageContainer from './../containers/LoginPageContainer';
 import FriendListContainer from './../containers/FriendListContainer';
 import AuthRequired from './../components/Auth/AuthRequired/AuthRequired';
@@ -18,7 +18,7 @@ export default class App extends Component {
 
   render() {
     return <div className='react-friends'>
-      <Header />
+      <HeaderContainer />
       {
         this.state.serverError &&
         <Alert bsStyle='danger'>{_.get(this.state.serverError, 'response.body.message')}</Alert>
