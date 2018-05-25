@@ -1,9 +1,9 @@
-const { Router } = require('express');
+const { Router: FriendsRoutes } = require('express');
 const _ = require('lodash');
 const Boom = require('boom');
-const FriendsRouter = new Router();
-const FriendsService = require('./service');
-const isAuthenticated = require('./../../middleware/isAuthenticated');
+const FriendsRouter = new FriendsRoutes({});
+const FriendsService = require('./../services/FriendsService');
+const isAuthenticated = require('../middleware/isAuthenticated');
 
 FriendsRouter
   .use(isAuthenticated)

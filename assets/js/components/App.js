@@ -3,9 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import { Alert } from 'react-bootstrap';
 import _ from 'lodash';
 import HeaderContainer from './../containers/HeaderContainer';
-import LoginPageContainer from './../containers/LoginPageContainer';
-import FriendListContainer from './../containers/FriendListContainer';
-import AuthRequired from './../components/Auth/AuthRequired/AuthRequired';
+import routes from './../routes';
 
 export default class App extends Component {
 
@@ -17,17 +15,20 @@ export default class App extends Component {
   }
 
   render() {
-    return <div className='react-friends'>
-      <HeaderContainer />
-      {
-        this.state.serverError &&
-        <Alert bsStyle='danger'>{_.get(this.state.serverError, 'response.body.message')}</Alert>
-      }
-      <Switch>
-        <Route path='/login' component={LoginPageContainer} />
-        <Route path='/friends' component={AuthRequired(FriendListContainer)} />
-      </Switch>
-    </div>;
+    return (
+      <div className='react-friends'>
+        <HeaderContainer />
+        {
+          this.state.serverError &&
+          <Alert bsStyle='danger'>{_.get(this.state.serverError, 'response.body.message')}</Alert>
+        }
+        <Switch>
+          {
+            routes.map(route => <Route {...route} />)
+          }
+        </Switch>
+      </div>
+    );
   }
 }
 

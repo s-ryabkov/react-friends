@@ -1,7 +1,7 @@
 const { Router } = require('express');
-const AuthRouter = new Router();
-const AuthService = require('./service');
-const isAuthenticated = require('./../../middleware/isAuthenticated');
+const AuthRouter = new Router({});
+const AuthService = require('./../services/AuthService');
+const isAuthenticated = require('./../middleware/isAuthenticated');
 
 AuthRouter
   .post('/login', (req, res, next) => {

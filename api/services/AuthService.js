@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const Boom = require('boom');
-const Utils = require('../../utils/utils');
+const Utils = require('./../utils/Utils');
 const Promise = require('bluebird');
 
 const AuthService = {

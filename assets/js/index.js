@@ -1,32 +1,47 @@
 import React from 'react';
-import { render } from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
+import { hydrate } from 'react-dom';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import reducers from './reducers/index';
+import createHistory from 'history/createBrowserHistory';
 
+import { ConnectedRouter, routerMiddleware } from 'react-router-redux';
 import thunk from 'redux-thunk';
-import { applyMiddleware, createStore } from 'redux';
 import cookie from 'react-cookies';
 
+import reducers from './reducers/index';
 import App from './components/App';
 import { setAuth } from './actions/authentication';
 
 import '../styles/common.scss';
 import 'bootstrap/dist/css/bootstrap.css';
+import ErrorBoundary from './components/ErrorBoundary';
 
 const initialState = window.__INITIAL_STATE__;
+delete window.__INITIAL_STATE__;
 
-const store = applyMiddleware(thunk)(createStore)(reducers, initialState);
+const history = createHistory();
+
+// Build the middleware for intercepting and dispatching navigation actions
+const middleware = routerMiddleware(history);
+
+const store = createStore(
+  reducers,
+  initialState,
+  applyMiddleware(thunk, middleware),
+);
+
 const authToken = cookie.load('token');
 if (authToken) {
   store.dispatch(setAuth(authToken, { email: cookie.load('email') }));
 }
 
-render(
-  <Provider store={store}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </Provider>,
+hydrate(
+  <ErrorBoundary>
+    <Provider store={store}>
+      <ConnectedRouter history={history}>
+        <App />
+      </ConnectedRouter>
+    </Provider>
+  </ErrorBoundary>,
   document.querySelector('#app'),
 );

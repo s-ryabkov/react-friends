@@ -1,4 +1,4 @@
-const Utils = require('./../../utils/utils');
+const Utils = require('./../utils/Utils');
 const Promise = require('bluebird');
 const _ = require('lodash');
 //TODO: use separate file as a stub-storage?
