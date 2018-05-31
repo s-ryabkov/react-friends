@@ -31,6 +31,12 @@
         "transform-es2015-modules-commonjs",
         "transform-object-rest-spread"
       ]
+    },
+    "production": {
+      "plugins": [
+        "transform-es2015-modules-commonjs",
+        "transform-object-rest-spread"
+      ]
     }
   }
 }

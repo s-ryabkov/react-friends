@@ -1,7 +1,7 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { login } from '../actions/authentication';
-import LoginPage from '../components/Auth/LoginPage/LoginPage';
+import { login, loggedInRedirect } from '../../actions/authentication';
+import LoginForm from './LoginForm';
 
 function mapStateToProps(state) {
   return {
@@ -12,10 +12,11 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     login,
+    loggedInRedirect,
   }, dispatch);
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(LoginPage);
+)(LoginForm);

@@ -1,42 +1,72 @@
 const React = require('react');
-const { createStore } = require('redux');
+const { createStore, applyMiddleware } = require('redux');
+const thunk = require('redux-thunk').default;
 const { Provider } = require('react-redux');
-const path = require('path');
+const Path = require('path');
+const Promise = require('bluebird');
 const { renderToString } = require('react-dom/server');
 const { StaticRouter, matchPath } = require('react-router-dom');
-const { promisify } = require('util');
 const fs = require('fs');
-const reducers = require('./../../assets/js/reducers/index').default;
-const App = require('./../../assets/js/components/App').default;
+const _ = require('lodash');
+const Reducers = require('./../../assets/js/reducers/index').default;
+const { setAuth } = require('./../../assets/js/actions/authentication');
+const App = require('../../assets/js/App').default;
+const ClientRoutes = require('./../../assets/js/routes').default;
+const axios = require('axios');
 
-function renderFullPage(indexHtml, appHtml, preLoadedState) {
-  return indexHtml
+const INDEX_HTML_CONTENT = fs.readFileSync(Path.resolve(process.cwd(), 'dist', 'index.html'));
+
+function renderFullPage(appHtml, preLoadedState) {
+  return INDEX_HTML_CONTENT
+    .toString()
     .replace('__HTML__', appHtml)
-    .replace('__PRELOADED_STATE__', JSON.stringify(preLoadedState).replace(/</g, '\\u003c'));
+    .replace('"__INITIAL_STATE__"', JSON.stringify(preLoadedState).replace(/</g, '\\u003c'));
 }
 
 function serverRenderer(req, res, next) {
   const context = {};
-  const store = createStore(reducers);
-  const appHtml = renderToString(
-    <Provider store={store}>
-      <StaticRouter location={req.url} context={context}>
-        <App />
-      </StaticRouter>
-    </Provider>,
-  );
+  const store = createStore(Reducers, applyMiddleware(thunk));
 
-  if (context.url) {
-    res.writeHead(301, { Location: context.url });
-    res.end();
-  } else {
-    const preloadedState = store.getState();
-
-    promisify(fs.readFile)(path.resolve(process.cwd(), 'dist', 'index.html'))
-      .then((indexHtml) => {
-        res.send(renderFullPage(indexHtml.toString(), appHtml, preloadedState));
-      });
+  const routes = ClientRoutes
+    .filter(r => matchPath(req.path, r))
+    .filter(r => !r.path || r.path !== '*');
+  if (routes.length === 0) {
+    return next();
   }
+  if (req.isAuthenticated) {
+    const user = req.principal;
+    store.dispatch(setAuth(req.cookies.token, user));
+  }
+
+  const requiredActions = _.flattenDeep(routes.map(route => route.component.requiredActions))
+    .filter(action => !!action);
+
+  // TODO: is it safe to set global headers?!
+  axios.defaults.headers = req.headers;
+
+  return Promise.map(requiredActions, action => {
+    return store.dispatch(action());
+  })
+    .catch(console.warn)
+    .then(() => {
+
+      const appHtml = renderToString(
+        <Provider store={store}>
+          <StaticRouter location={req.url} context={context}>
+            <App />
+          </StaticRouter>
+        </Provider>,
+      );
+
+      if (context.url) {
+        res.writeHead(301, { Location: context.url });
+        res.end();
+      } else {
+        const preloadedState = store.getState();
+        const content = renderFullPage(appHtml, preloadedState);
+        res.send(content);
+      }
+    });
 
 }
 

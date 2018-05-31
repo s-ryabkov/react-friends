@@ -1,7 +1,7 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getFriends } from '../actions/friends';
-import FriendList from '../components/Friends/FriendsList/FriendList';
+import { getFriends } from '../../actions/friends';
+import FriendsList from './FriendsList';
 
 function mapStateToProps(state) {
   return {
@@ -17,7 +17,11 @@ function mapDispatchToProps(dispatch) {
   }, dispatch);
 }
 
-export default connect(
+const FriendListContainer = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(FriendList);
+)(FriendsList);
+
+FriendListContainer.requiredActions = [getFriends];
+
+export default FriendListContainer;

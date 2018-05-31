@@ -23,7 +23,7 @@ FriendsRouter
     const { from, number, query } = req.query;
     const options = {
       from: ~~from || 0,
-      number: ~~number || 10,
+      number: ~~number || 5,
       query: query || '',
     };
     FriendsService.search(options)

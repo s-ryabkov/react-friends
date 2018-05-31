@@ -1,14 +1,24 @@
-# React Friends test web app
+# React Friends 
+The template for isomorphic/universal webapp. 
 
-## Technologies
+## Features and technologies
+- Universal rendering with async data fetching
 - Express
 - React
+- React Router v4
 - Redux
 - Redux Thunk
+- React Router Redux
 - Webpack
+- Webpack Dev Middleware 
+- Webpack Hot Middleware 
 - Babel
 - Bootstrap
 - SCSS
+- Jest
+
+## Project structure
+TODO: TBD
 
 ## Deploy
 

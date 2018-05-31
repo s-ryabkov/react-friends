@@ -1,23 +1,29 @@
-import LoginPageContainer from './containers/LoginPageContainer';
-import AuthRequired from './components/Auth/AuthRequired/AuthRequired';
-import FriendListContainer from './containers/FriendListContainer';
-import NotFound from './components/NotFound';
+import LoginPage from './pages/LoginPage';
+import FriendsPage from './pages/FriendsPage';
+import NotFound from './components/Utils/NotFound';
+import HomePage from './pages/HomePage';
+import Roles from './../../api/utils/Roles';
 
 const routes = [
   {
+    path: '/',
+    exact: true,
+    component: HomePage,
+  },
+  {
     path: '/login',
-    component: LoginPageContainer,
-    loadData: () => {},
+    exact: true,
+    component: LoginPage,
   },
   {
     path: '/friends',
-    component: AuthRequired(FriendListContainer),
-    loadData: () => {},
+    exact: true,
+    component: FriendsPage,
+    auth: [Roles.USER],
   },
   {
     path: '*',
     component: NotFound,
-    loadData: null,
   },
 ];
 export default routes;

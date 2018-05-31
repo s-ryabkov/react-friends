@@ -13,9 +13,17 @@ class Header extends Component {
       <Navbar>
         <Navbar.Header>
           <Navbar.Brand>
-            <Link to='/login'>React-Friends</Link>
+            <Link to='/'>React-Friends</Link>
           </Navbar.Brand>
         </Navbar.Header>
+        {
+          !user &&
+          <Nav>
+            <LinkContainer to='/login'>
+              <NavItem eventKey={2}>Login</NavItem>
+            </LinkContainer>
+          </Nav>
+        }
         <Nav>
           <LinkContainer to='/friends'>
             <NavItem eventKey={1}>Friends</NavItem>

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Pager, Row, Table } from 'react-bootstrap';
+import { Pager, Row } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import Friend from './../Friend/Friend';
+import Friend from './Friend/Friend';
 
 export default class FriendsList extends Component {
 
@@ -29,7 +29,9 @@ export default class FriendsList extends Component {
   }
 
   componentDidMount() {
-    this.searchFriends();
+    if (this.props.rows.length === 0) {
+      this.searchFriends();
+    }
   }
 
   prevPage() {
@@ -62,7 +64,7 @@ export default class FriendsList extends Component {
     const newState = _.set(
       this.state,
       ev.target.name,
-      isNumber ? Number.parseInt(ev.target.value, 10) : ev.target.value
+      isNumber ? Number.parseInt(ev.target.value, 10) : ev.target.value,
     );
     this.setState(newState);
   }
@@ -100,31 +102,47 @@ export default class FriendsList extends Component {
           <input type='text' name='searchQuery.query' placeholder='Name' onChange={this.onChange} />
           <button onClick={this.searchFriends}>Search</button>
         </Row>
-        <Row>
-          <Table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Last name</th>
-                <th>
-                  <span>Age</span>
-                  <input type='number' name='filters.ageFrom' placeholder='From' onChange={this.onChange} />
-                  <input type='number' name='filters.ageTo' placeholder='To' onChange={this.onChange} />
-                </th>
-                <th>
-                  <span>Gender</span>
-                  <input type='text' name='filters.gender' placeholder='M or F' onChange={this.onChange} />
-                </th>
-                <th>Birth date</th>
-              </tr>
-            </thead>
-            <tbody>
-              {
-                filteredRows.map((friend) => <Friend friend={friend} key={friend.id} />)
-              }
-            </tbody>
-          </Table>
-        </Row>
+
+        <div className={'friends-list__table'}>
+
+          <div className={'row friends-list_table__header'}>
+            <div className={'col-md-3'}>Name</div>
+            <div className={'col-md-3'}>Last name</div>
+            <div className={'col-md-2'}>
+              <span>Age</span>
+              <input
+                className={'friends-list_table__input-filter'}
+                type='number'
+                name='filters.ageFrom'
+                placeholder='From'
+                onChange={this.onChange} />
+              <input
+                className={'friends-list_table__input-filter'}
+                type='number'
+                name='filters.ageTo'
+                placeholder='To'
+                onChange={this.onChange} />
+            </div>
+            <div className={'col-md-2'}>
+              <span>Gender</span>
+              <input
+                className={'friends-list_table__input-filter'}
+                type='text'
+                name='filters.gender'
+                placeholder='M or F'
+                onChange={this.onChange} />
+            </div>
+            <div className={'col-md-2'}>Birth date</div>
+          </div>
+
+          <div className={'row friends-list_table__body'}>
+            {
+              filteredRows.map((friend) => <Friend friend={friend} key={friend.id} />)
+            }
+          </div>
+
+        </div>
+
         <Row>
           <Pager>
             <Pager.Item

@@ -29,6 +29,7 @@ module.exports = (app) => {
       .catch(() => next());
   });
 
+  app.get('/api/ping', (req, res) => res.send({}));
   // apply all the routes
   app.use('/api', AuthRoutes);
   app.use('/api', FriendsRoutes);

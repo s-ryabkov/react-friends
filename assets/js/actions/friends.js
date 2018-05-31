@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { SubmissionError } from 'redux-form';
-import * as ActionTypes from './../action-types/index';
+import * as ActionTypes from './action-types';
 
 export const setFriends = (rows, total) => {
   return {
@@ -10,18 +10,17 @@ export const setFriends = (rows, total) => {
   };
 };
 
-export const getFriends = (searchQuery, callback) => {
+export const getFriends = (searchQuery = { limit: 10 }) => {
   return (dispatch) => {
-    return axios({
-        url: '/api/friends',
-        method: 'GET',
-        params: searchQuery,
-      },
-    )
+    const req = {
+      url: 'http://localhost:3000/api/friends',
+      method: 'GET',
+      params: searchQuery,
+    };
+    return axios(req)
       .then((response) => {
         const { rows, total } = response.data;
         dispatch(setFriends(rows, total));
-        callback && dispatch(callback);
       })
       .catch(({ response: { data: { message } } }) => {
         throw new SubmissionError({ '_error': message });

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import Header from './../components/Common/Header/Header';
+import Header from './Header';
 
 function mapStateToProps(state) {
   return {

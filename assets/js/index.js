@@ -1,3 +1,5 @@
+import 'core-js/es6/map';
+import 'core-js/es6/set';
 import React from 'react';
 import { hydrate } from 'react-dom';
 import { createStore, applyMiddleware } from 'redux';
@@ -9,12 +11,13 @@ import thunk from 'redux-thunk';
 import cookie from 'react-cookies';
 
 import reducers from './reducers/index';
-import App from './components/App';
+import App from './App';
 import { setAuth } from './actions/authentication';
 
 import '../styles/common.scss';
 import 'bootstrap/dist/css/bootstrap.css';
-import ErrorBoundary from './components/ErrorBoundary';
+import './../images/favicon.ico';
+import ErrorBoundary from './components/Utils/ErrorBoundary';
 
 const initialState = window.__INITIAL_STATE__;
 delete window.__INITIAL_STATE__;

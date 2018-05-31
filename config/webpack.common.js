@@ -1,6 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
+const path = require('path');
 
 module.exports = {
   entry: {
@@ -13,14 +14,14 @@ module.exports = {
       'react-dom',
       'react-router',
       'react-bootstrap',
-      'redux',
-      'react-redux',
-      'redux-thunk',
     ],
   },
 
   resolve: {
     extensions: ['.js', '.jsx'],
+    alias: {
+      styles: path.resolve(__dirname, './assets/styles'),
+    },
   },
 
   module: {
@@ -36,17 +37,20 @@ module.exports = {
       },
       {
         test: /\.(svg|png|jpe?g|gif|ico)$/,
-        loader: 'file-loader?name=assets/images/[name].[hash].[ext]',
+        loader: 'file-loader?name=assets/images/[name].[ext],url-loader',
       },
       {
-        test: /\.?scss$/,
+        test: /\.scss$/,
         loader: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: 'css-loader!autoprefixer-loader?browsers=last 2 version!resolve-url-loader!sass-loader?sourceMap',
+          use: [
+            { loader: 'css-loader', options: { sourceMap: true } },
+            { loader: 'sass-loader', options: { sourceMap: true } },
+          ],
         }),
       },
       {
-        test: /\.?css$/,
+        test: /\.css$/,
         loader: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: 'css-loader!autoprefixer-loader?browsers=last 2 version!resolve-url-loader!sass-loader?sourceMap',
