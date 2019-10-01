@@ -27,7 +27,7 @@
     }
   },
   "dependencies": {
-    "axios": "^0.16.2",
+    "axios": "^0.18.1",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.3",
     "boom": "^5.2.0",
