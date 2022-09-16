@@ -31,7 +31,7 @@
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.3",
     "boom": "^5.2.0",
-    "bootstrap": "^3.3.7",
+    "bootstrap": "^3.4.1",
     "classnames": "^2.2.5",
     "compression": "^1.7.2",
     "cookie-parser": "^1.4.3",
